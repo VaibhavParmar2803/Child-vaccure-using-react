@@ -5,11 +5,14 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "server": "nodemon app.js",
+    "client": "npm start --prefix ../Frontend",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "hirva",
   "license": "ISC",
   "dependencies": {
+    "concurrently": "^8.2.2",
     "express": "^4.18.3",
     "express-session": "^1.17.1",
     "helmet": "^3.21.1",
