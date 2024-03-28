@@ -29,7 +29,7 @@ router.post("/book",
     bookAppintment
 )
 
-router.put("/update",
+router.put("/update/:id",
     check('fullName', 'Full name is required.').notEmpty(),
     check('email', 'Email is required.').notEmpty(),
     check('email', 'Please include a valid email.').isEmail(),
