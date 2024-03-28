@@ -37,10 +37,13 @@ const createUser = asyncHandler(async (req, res) => {
       phone
     }).save();
 
+    const token = await jwt.sign({ newUser }, process.env.JWT_SECRET_KEY, { expiresIn: "365 days", });
+
     return res.status(201).json({
       error: false,
       message: "User created successfully.",
       user: newUser,
+      token
     });
   } catch (error) {
     console.log(error.message);
