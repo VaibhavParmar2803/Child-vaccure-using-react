@@ -16,6 +16,7 @@ import FullVaccination from './pages/FullVaccination';
 import ContactUs from './pages/ContactUs';
 import BookAppointment from './pages/BookAppointment';
 import Profile from './pages/Profile';
+import AdminRoutes from './Routes/AdminRoutes';
 
 function App() {
   return (
@@ -26,15 +27,16 @@ function App() {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/book-appointment" element={<BookAppointment />} />
       <Route path="/profile" element={<Profile />} />
-      <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      <Route path="/admin/bookings" element={<BookingDetail />} />
-      <Route path="/admin/vaccination" element={<VaccinationDetail />} />
-      <Route path="/admin/vaccination/pending" element={<PendingVaccination />} />
-      <Route path="/admin/vaccination/full" element={<FullVaccination />} />
-      <Route path="/admin/contact-us" element={<ContactUs />} />
+      <Route path="/admin" element={<AdminRoutes />}>
+        <Route path="dashboard" element={<AdminDashboard />} />
+        <Route path="bookings" element={<BookingDetail />} />
+        <Route path="vaccination" element={<VaccinationDetail />} />
+        <Route path="vaccination/pending" element={<PendingVaccination />} />
+        <Route path="vaccination/full" element={<FullVaccination />} />
+        <Route path="contact-us" element={<ContactUs />} />
+      </Route>
     </Routes>
   );
 }
 
 export default App;
-  
