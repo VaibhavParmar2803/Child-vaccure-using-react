@@ -1,6 +1,7 @@
 const Appointment = require("../models/appointmentModel");
 const asyncHandler = require("express-async-handler");
 const { validationResult } = require("express-validator");
+const { formattedDate } = require("../helper/helper");
 
 const bookAppintment = asyncHandler(async (req, res) => {
     const errors = validationResult(req);
@@ -141,10 +142,15 @@ const getAllAppointment = asyncHandler(async (req, res) => {
         const totalAppointments = await Appointment.countDocuments();
         const appointments = await Appointment.find().sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
+        const formattedAppointments = appointments.map(appointment => ({
+            ...appointment,
+            date: formattedDate(appointment.date)
+        }));
+
         return res.status(200).json({
             error: false,
             message: "Users retrieved successfully.",
-            appointments,
+            appointments: formattedAppointments,
             currentPage: page,
             totalPages: Math.ceil(totalAppointments / limit),
             totalAppointments,
@@ -167,10 +173,15 @@ const getPendingAppointment = asyncHandler(async (req, res) => {
         const totalAppointments = await Appointment.countDocuments({ status: 'pending' });
         const appointments = await Appointment.find({ status: 'pending' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
+        const formattedAppointments = appointments.map(appointment => ({
+            ...appointment,
+            date: formattedDate(appointment.date)
+        }));
+
         return res.status(200).json({
             error: false,
             message: "Users retrieved successfully.",
-            appointments,
+            appointments: formattedAppointments,
             currentPage: page,
             totalPages: Math.ceil(totalAppointments / limit),
             totalAppointments,
@@ -193,10 +204,15 @@ const getCompletedAppointment = asyncHandler(async (req, res) => {
         const totalAppointments = await Appointment.countDocuments({ status: 'completed' });
         const appointments = await Appointment.find({ status: 'completed' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
+        const formattedAppointments = appointments.map(appointment => ({
+            ...appointment,
+            date: formattedDate(appointment.date)
+        }));
+
         return res.status(200).json({
             error: false,
             message: "Users retrieved successfully.",
-            appointments,
+            appointments: formattedAppointments,
             currentPage: page,
             totalPages: Math.ceil(totalAppointments / limit),
             totalAppointments,

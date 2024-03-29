@@ -43,11 +43,6 @@ router.put("/update/:id",
     auth, isAdmin, updateAppointment)
 
 router.put("/update/status/:id",
-    check('fullName', 'Full name is required.').notEmpty(),
-    check('email', 'Email is required.').notEmpty(),
-    check('email', 'Please include a valid email.').isEmail(),
-    check('phone', 'Phone number is required.').notEmpty(),
-    check('phone', 'Please enter a valid phone number').isLength({ min: 10, max: 13 }),
     auth, isAdmin, updateStatusOfAppointment)
 
 router.delete("/delete/:id", auth, isAdmin, deleteAppointment)

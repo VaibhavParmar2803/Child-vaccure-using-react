@@ -107,6 +107,16 @@ form .submit-button {
   font-weight: 600;
 }
 
+.complate_vaccination_button{
+  background-color: rgb(20, 116, 0);
+  width: 100%;
+  padding: 10px;
+  font-weight: 600;
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+
 form .submit-button:hover {
   background-color: rgb(156, 60, 245);
 }

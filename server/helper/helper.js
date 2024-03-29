@@ -1,6 +1,7 @@
+const moment = require('moment')
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-    
+
 const hashPassword = async (password) => {
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -18,4 +19,8 @@ const comparePassword = async (password, hashPassword) => {
     }
 };
 
-module.exports = { hashPassword, comparePassword }
+const formattedDate = (date) => {
+    return moment(date).format('DD-MM-YYYY')
+}
+
+module.exports = { hashPassword, comparePassword, formattedDate }

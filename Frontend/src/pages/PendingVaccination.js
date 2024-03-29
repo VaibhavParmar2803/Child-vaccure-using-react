@@ -6,7 +6,7 @@ import { useAppointment } from '../contaxt/AppointmentContaxt';
 import Layout from '../components/Layout'
 
 function PendingVaccination() {
-    const { fetchPendingAppointment } = useAppointment()
+    const { fetchPendingAppointment, updateAppointmentStatuts } = useAppointment()
 
     const [vaccinatedList, setVaccinatedList] = useState([]);
     const [totalRecords, setTotalRecords] = useState(vaccinatedList.length);
@@ -40,6 +40,15 @@ function PendingVaccination() {
         setSortOrder(order);
     };
 
+    const handleStatusOfAppointment = async (id) => {
+        try {
+            await updateAppointmentStatuts({ status: 'completed' }, id)
+            fetchBookings()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <Layout>
             <div className='page-title'>
@@ -71,6 +80,16 @@ function PendingVaccination() {
                 <Column field="time" header="Time" align="center" />
                 <Column field="age" header="Age" align="center" />
                 <Column field="address" header="Address" align="center" />
+                <Column
+                    header="Action"
+                    className='action_td'
+                    align="left"
+                    body={(rowData) => (
+                        <>
+                            <button className='complate_vaccination_button' onClick={() => handleStatusOfAppointment(rowData._id)}>Vaccinated</button>
+                        </>
+                    )}
+                />
             </DataTable>
         </Layout>
     )
