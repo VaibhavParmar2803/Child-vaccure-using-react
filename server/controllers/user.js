@@ -233,10 +233,17 @@ const changePassword = asyncHandler(async (req, res) => {
     }
 
     const hashedPassword = await hashPassword(password);
-    await Users.findAndUpdate(email, { password: hashedPassword });
+
+    const updatedUser = await Users.findOneAndUpdate(
+      { email: email },
+      { password: hashedPassword },
+      { new: true }
+    );
+
     res.status(200).send({
       error: false,
       message: "Password changed Successfully.",
+      user: updatedUser
     });
   } catch (error) {
     console.log(error.message);

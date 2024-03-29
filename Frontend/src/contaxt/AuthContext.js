@@ -82,12 +82,10 @@ const AuthProvider = ({ children }) => {
 
     const forgotPassword = async (credential) => {
         try {
-            const { data } = await axios.post(`${baseURL}/user/resetPassword`, credential);
+            const { data } = await axios.put(`${baseURL}/user/resetPassword`, credential);
 
             if (data.error === false) {
-                setTimeout(function () {
-                    toast.current?.show({ severity: 'success', summary: data.data.user.user_name, detail: data.message, life: 3000 })
-                }, 500);
+                return data
             } else {
                 toast.current?.show({ severity: 'error', summary: 'Forgot Password', detail: data.message, life: 3000 })
             }

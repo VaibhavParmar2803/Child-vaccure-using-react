@@ -4,7 +4,6 @@ const userSchema = new mongoose.Schema({
     fullName: {
         type: String,
         required: true,
-        trim: true
     },
     email: {
         type: String,
@@ -30,10 +29,6 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-userSchema.pre("save", function (next) {
-    this.fullName = this.firstname + " " + this.lastname;
-    next();
-});
 const Users = mongoose.model("User", userSchema);
 
 module.exports = Users;
