@@ -15,16 +15,15 @@ const appointmentSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    password: {
-        type: String,
-        required: true,
-        minlength: 6
-    },
     address: {
         type: String,
         required: true
     },
     phone: {
+        type: String,
+        required: true,
+    },
+    age: {
         type: String,
         required: true,
     },

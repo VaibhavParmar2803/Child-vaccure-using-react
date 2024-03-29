@@ -59,23 +59,20 @@ const AppointmentProvider = ({ children }) => {
             const { data } = await axios.post(`${baseURL}/appointment/book`, appointmentDetail, { headers });
             if (data.error === false) {
                 setTimeout(function () {
-                    toast.current.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
+                    toast.current?.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
                 }, 1000);
+                return data
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
             }
         } catch (error) {
             if (error.response) {
                 const errors = error.response.data.errors;
                 if (errors && Array.isArray(errors) && errors.length > 0) {
-                    if (errors.length > 1) {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: "Please fill all fields.", life: 3000 })
-                    } else {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
-                    }
+                    toast.current?.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
                 }
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
             }
         }
     }
@@ -85,23 +82,20 @@ const AppointmentProvider = ({ children }) => {
             const { data } = await axios.put(`${baseURL}/appointment/update/${id}`, appointmentDetail, { headers });
             if (data.error === false) {
                 setTimeout(function () {
-                    toast.current.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
+                    toast.current?.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
                 }, 1000);
+                return data
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
             }
         } catch (error) {
             if (error.response) {
                 const errors = error.response.data.errors;
                 if (errors && Array.isArray(errors) && errors.length > 0) {
-                    if (errors.length > 1) {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: "Please fill all fields.", life: 3000 })
-                    } else {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
-                    }
+                    toast.current?.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
                 }
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
             }
         }
     }
@@ -111,23 +105,20 @@ const AppointmentProvider = ({ children }) => {
             const { data } = await axios.put(`${baseURL}/appointment/update/status/${id}`, appointmentDetail, { headers });
             if (data.error === false) {
                 setTimeout(function () {
-                    toast.current.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
+                    toast.current?.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
                 }, 1000);
+                return data
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
             }
         } catch (error) {
             if (error.response) {
                 const errors = error.response.data.errors;
                 if (errors && Array.isArray(errors) && errors.length > 0) {
-                    if (errors.length > 1) {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: "Please fill all fields.", life: 3000 })
-                    } else {
-                        toast.current.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
-                    }
+                    toast.current?.show({ severity: 'error', summary: 'Appointment', detail: errors[0].msg, life: 3000 })
                 }
             } else {
-                toast.current.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
+                toast.current?.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
             }
         }
     }
@@ -137,6 +128,9 @@ const AppointmentProvider = ({ children }) => {
             const { data } = await axios.delete(`${baseURL}/appointment/delete/${id}`, { headers });
             if (data.error === false) {
                 toast.current.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
+                return data
+            } else {
+                toast.current.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
             }
         } catch (error) {
             toast.current.show({ severity: 'error', summary: 'Appointment', detail: 'An error occurred. Please try again later.', life: 3000 })
@@ -144,7 +138,7 @@ const AppointmentProvider = ({ children }) => {
     }
 
     return (
-        <AppointmentContext.Provider value={{ fetchAllAppointment, fetchPendingAppointment, fetchCompletedAppointment, getSingleAppointment, bookAppointment, updateAppointment, deleteAppointment }}>
+        <AppointmentContext.Provider value={{ fetchAllAppointment, fetchPendingAppointment, fetchCompletedAppointment, getSingleAppointment, bookAppointment, updateAppointment, updateAppointmentStatuts, deleteAppointment }}>
             {children}
         </AppointmentContext.Provider>
     );

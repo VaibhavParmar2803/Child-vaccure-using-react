@@ -15,31 +15,31 @@ router.get("/single/:id", auth, isAdmin, getSingleAppointment)
 
 router.post("/book",
     check('fullName', 'Full name is required.').notEmpty(),
+    check('vaccine', 'Vaccine is required.').notEmpty(),
     check('email', 'Email is required.').notEmpty(),
     check('email', 'Please include a valid email.').isEmail(),
-    check('password', 'Password is required.').notEmpty(),
-    check('password', 'Please enter a password with 8 or more characters.').isLength({ min: 8 }),
     check('phone', 'Phone number is required.').notEmpty(),
     check('phone', 'Please enter a valid phone number').isLength({ min: 10, max: 13 }),
-    check('address', 'Address is required.').notEmpty(),
     check('date', 'Date is required.').notEmpty(),
     check('time', 'Time is required.').notEmpty(),
-    check('vaccine', 'Vaccine is required.').notEmpty(),
     check('gender', 'Gender is required.').notEmpty(),
+    check('age', 'Age is required.').notEmpty(),
+    check('address', 'Address is required.').notEmpty(),
     bookAppintment
 )
 
 router.put("/update/:id",
     check('fullName', 'Full name is required.').notEmpty(),
+    check('vaccine', 'Vaccine is required.').notEmpty(),
     check('email', 'Email is required.').notEmpty(),
     check('email', 'Please include a valid email.').isEmail(),
     check('phone', 'Phone number is required.').notEmpty(),
     check('phone', 'Please enter a valid phone number').isLength({ min: 10, max: 13 }),
-    check('address', 'Address is required.').notEmpty(),
     check('date', 'Date is required.').notEmpty(),
     check('time', 'Time is required.').notEmpty(),
-    check('vaccine', 'Vaccine is required.').notEmpty(),
     check('gender', 'Gender is required.').notEmpty(),
+    check('age', 'Age is required.').notEmpty(),
+    check('address', 'Address is required.').notEmpty(),
     auth, isAdmin, updateAppointment)
 
 router.put("/update/status/:id",

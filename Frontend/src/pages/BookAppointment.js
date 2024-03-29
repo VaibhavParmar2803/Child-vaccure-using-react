@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CForm, CFormInput, CRow, CButton, CCol, CFormSelect } from '@coreui/react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { Toast } from 'primereact/toast';
+import { useAppointment } from '../contaxt/AppointmentContaxt';
+import { useAuth } from '../contaxt/AuthContext';
 
 const timeOptions = [
     { label: '9:00 AM - 10:00 AM', value: '9:00 AM - 10:00 AM' },
@@ -30,8 +33,36 @@ const ageOptions = [
 ]
 
 function BookAppointment() {
+    const { bookAppointment } = useAppointment()
+    const { toast } = useAuth();
+    const navigate = useNavigate();
+
+    const [appointmentDetail, setAppointmentDetail] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        address: "",
+        vaccine: "",
+        date: "",
+        time: "",
+        gender: "",
+        age: ""
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await bookAppointment(appointmentDetail);
+            if (!data.error) {
+                navigate('/')
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
         <div className='authentication'>
+            <Toast ref={toast} />
             <div className='authentication-header'>
                 <div className='overlay'></div>
                 <img src='/vaccines.png' />
@@ -45,18 +76,22 @@ function BookAppointment() {
                     <div className='line'></div>
                 </div>
                 <div className='form'>
-                    <CForm>
+                    <CForm onSubmit={handleSubmit}>
                         <CRow className='mb-4 mt-4'>
                             <CCol>
                                 <CFormInput
                                     type="text"
                                     placeholder="Enter Full Name"
+                                    value={appointmentDetail.fullName}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, fullName: e.target.value })}
                                 />
                             </CCol>
                             <CCol>
                                 <CFormInput
                                     type="text"
                                     placeholder="Enter Vaccine Name"
+                                    value={appointmentDetail.vaccine}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, vaccine: e.target.value })}
                                 />
                             </CCol>
                         </CRow>
@@ -65,12 +100,16 @@ function BookAppointment() {
                                 <CFormInput
                                     type="email"
                                     placeholder="Enter Email"
+                                    value={appointmentDetail.email}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, email: e.target.value })}
                                 />
                             </CCol>
                             <CCol>
                                 <CFormInput
-                                    type="password"
-                                    placeholder="Enter Password"
+                                    type="phone"
+                                    placeholder="Enter phone number"
+                                    value={appointmentDetail.phone}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, phone: e.target.value })}
                                 />
                             </CCol>
                         </CRow>
@@ -78,11 +117,16 @@ function BookAppointment() {
                             <CCol>
                                 <CFormInput
                                     type="date"
-                                    placeholder="Enter Email"
+                                    placeholder="Enter Date"
+                                    value={appointmentDetail.date}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, date: e.target.value })}
                                 />
                             </CCol>
                             <CCol>
-                                <CFormSelect >
+                                <CFormSelect
+                                    value={appointmentDetail.time}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, time: e.target.value })}
+                                >
                                     <option value="" disabled>Select time</option>
                                     {timeOptions.map((o) => (
                                         <option key={o.value} value={o.value}>{o.label}</option>
@@ -92,7 +136,10 @@ function BookAppointment() {
                         </CRow>
                         <CRow className='mb-4'>
                             <CCol>
-                                <CFormSelect >
+                                <CFormSelect
+                                    value={appointmentDetail.gender}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, gender: e.target.value })}
+                                >
                                     <option value="" disabled>Select Gender</option>
                                     {genderOptions.map((o) => (
                                         <option key={o.value} value={o.value}>{o.label}</option>
@@ -100,7 +147,10 @@ function BookAppointment() {
                                 </CFormSelect>
                             </CCol>
                             <CCol>
-                                <CFormSelect >
+                                <CFormSelect
+                                    value={appointmentDetail.age}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, age: e.target.value })}
+                                >
                                     <option value="" disabled>Select Age</option>
                                     {ageOptions.map((o) => (
                                         <option key={o.value} value={o.value}>{o.label}</option>
@@ -111,6 +161,8 @@ function BookAppointment() {
                         <CRow className='mb-4'>
                             <CCol>
                                 <CFormInput
+                                    value={appointmentDetail.address}
+                                    onChange={(e) => setAppointmentDetail({ ...appointmentDetail, address: e.target.value })}
                                     type='text'
                                     placeholder='Address' />
                             </CCol>

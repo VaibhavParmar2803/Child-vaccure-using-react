@@ -1,10 +1,13 @@
 import React from 'react'
-import Layout2 from '../components/Layout2'
 import { CCol, CFormLabel, CRow } from '@coreui/react'
 import { Avatar } from 'primereact/avatar'
 import { Icon } from '@iconify/react'
+import { useAuth } from '../contaxt/AuthContext'
+import Layout2 from '../components/Layout2'
 
 function Profile() {
+    const { auth } = useAuth();
+
     return (
         <Layout2>
             <div className='profile'>
@@ -16,7 +19,7 @@ function Profile() {
                 <CRow className='profile-box'>
                     <CCol lg={4} className='left-side'>
                         <Avatar image={'/profile.png'} className='avatar' shape="circle" />
-                        <CFormLabel>John Doe</CFormLabel>
+                        <CFormLabel>{auth.user.fullName}</CFormLabel>
                     </CCol>
                     <CCol lg={8} className='right-side'>
                         <div className='heading'>
@@ -25,11 +28,11 @@ function Profile() {
                         <div className='d-flex justify-content-between top-side'>
                             <div className='profile-detail'>
                                 <div className='title'><Icon icon="fontisto:email" className='icons' />Email</div>
-                                <div className='sub_title'>john@gmail.com</div>
+                                <div className='sub_title'>{auth.user.email}</div>
                             </div>
                             <div className='profile-detail'>
                                 <div className='title'><Icon icon="iconoir:phone" className='icons' />Phone</div>
-                                <div className='sub_title'>9876598765</div>
+                                <div className='sub_title'>{auth.user.phone}</div>
                             </div>
                         </div>
                         <div className='d-flex justify-content-between'>

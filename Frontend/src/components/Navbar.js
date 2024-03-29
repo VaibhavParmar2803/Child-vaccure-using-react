@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
@@ -7,7 +7,6 @@ import { useAuth } from '../contaxt/AuthContext';
 function Navbar() {
     const { auth } = useAuth();
     const navigate = useNavigate()
-    const [isLogin, setIsLogin] = useState(true)
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-white border-bottom">

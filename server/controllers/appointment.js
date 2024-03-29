@@ -1,7 +1,6 @@
 const Appointment = require("../models/appointmentModel");
 const asyncHandler = require("express-async-handler");
 const { validationResult } = require("express-validator");
-const { hashPassword } = require("../helper/helper");
 
 const bookAppintment = asyncHandler(async (req, res) => {
     const errors = validationResult(req);
@@ -9,7 +8,7 @@ const bookAppintment = asyncHandler(async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
     try {
-        const { fullName, email, password, phone, address, vaccine, date, time, gender } = req.body;
+        const { fullName, email, phone, address, vaccine, date, time, gender, age } = req.body;
 
         const existingAppointment = await Appointment.findOne({ email });
         if (existingAppointment) {
@@ -27,18 +26,16 @@ const bookAppintment = asyncHandler(async (req, res) => {
             });
         }
 
-        const hashedPassword = await hashPassword(password);
-
-        const newAppointment = await new Users({
+        const newAppointment = await new Appointment({
             fullName,
             email,
-            password: hashedPassword,
             phone,
             address,
             vaccine,
             date,
             time,
-            gender
+            gender,
+            age
         }).save();
 
         return res.status(201).json({
