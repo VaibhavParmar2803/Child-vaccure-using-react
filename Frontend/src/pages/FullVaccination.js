@@ -57,7 +57,7 @@ function FullVaccination() {
                 first={(currentPage - 1) * rowsPerPage}
                 onPage={onPageChange}
                 dataKey="_id"
-                emptyMessage="No vaccinated detail found."
+                emptyMessage="No vaccination detail found."
                 paginatorLeft={
                     <Dropdown value={rowsPerPage} options={[10, 25, 50]} onChange={(e) => setRowsPerPage(e.value)} />
                 }

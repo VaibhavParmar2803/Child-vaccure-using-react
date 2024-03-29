@@ -14,7 +14,7 @@ const AppointmentProvider = ({ children }) => {
 
     const fetchAllAppointment = async (page, limit, sortField, sortOrder) => {
         try {
-            const { data } = await axios.get(`${baseURL}/appointment/`, { params: { page, limit, sortField, sortOrder }, headers: headers });
+            const { data } = await axios.get(`${baseURL}/appointment`, { params: { page, limit, sortField, sortOrder }, headers: headers });
             if (data.error === false) {
                 return data
             }

@@ -6,10 +6,6 @@ const contactSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-    vaccine: {
-        type: String,
-        required: true,
-    },
     email: {
         type: String,
         required: true,

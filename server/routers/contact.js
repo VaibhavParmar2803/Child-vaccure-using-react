@@ -14,7 +14,6 @@ router.post("/create",
     check('phone', 'Phone number is required.').notEmpty(),
     check('phone', 'Please enter a valid phone number').isLength({ min: 10, max: 13 }),
     check('message', 'Message is required.').notEmpty(),
-    check('vaccine', 'Vaccine is required.').notEmpty(),
     createContact
 )
 

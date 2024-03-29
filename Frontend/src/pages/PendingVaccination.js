@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
@@ -57,7 +57,7 @@ function PendingVaccination() {
                 first={(currentPage - 1) * rowsPerPage}
                 onPage={onPageChange}
                 dataKey="_id"
-                emptyMessage="No vaccinated found."
+                emptyMessage="No vaccination detail found."
                 paginatorLeft={
                     <Dropdown value={rowsPerPage} options={[10, 25, 50]} onChange={(e) => setRowsPerPage(e.value)} />
                 }

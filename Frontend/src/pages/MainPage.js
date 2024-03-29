@@ -3,7 +3,9 @@ import Layout2 from '../components/Layout2'
 import { CAccordion, CAccordionBody, CAccordionHeader, CAccordionItem, CButton, CCard, CCardBody, CCardSubtitle, CCardText, CCardTitle, CCarousel, CCarouselCaption, CCarouselItem, CCol, CForm, CFormInput, CImage, CRow, CTable } from '@coreui/react'
 import { Icon } from '@iconify/react'
 import { useNavigate } from 'react-router-dom'
-import { Dialog } from 'primereact/dialog'
+import { useContact } from '../contaxt/ContactContaxt'
+import { useAuth } from '../contaxt/AuthContext'
+import { Toast } from 'primereact/toast'
 
 const columns = [
     {
@@ -42,11 +44,39 @@ const items = [
 ];
 
 function MainPage() {
+    const { createContact } = useContact()
+    const { toast } = useAuth();
+
     const currentYear = new Date().getFullYear();
     const navigate = useNavigate();
 
+    const [contactDetail, setContactDetail] = useState({
+        fullName: "",
+        email: "",
+        phone: "",
+        message: ""
+    })
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const data = await createContact(contactDetail);
+            if (!data.error) {
+                setContactDetail({
+                    fullName: "",
+                    email: "",
+                    phone: "",
+                    message: ""
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
         <Layout2>
+            <Toast ref={toast} />
             <div>
                 <div className='home' id='home'>
                     <CCarousel controls indicators>
@@ -269,29 +299,37 @@ function MainPage() {
                         </div>
                     </div>
                     <div className='right-container'>
-                        <CForm>
+                        <CForm onSubmit={handleSubmit}>
                             <CRow className='mb-4'>
                                 <CFormInput
                                     type="text"
                                     placeholder="Enter Your Full Name"
+                                    value={contactDetail.fullName}
+                                    onChange={(e) => setContactDetail({ ...contactDetail, fullName: e.target.value })}
                                 />
                             </CRow>
                             <CRow className='mb-4'>
                                 <CFormInput
                                     type="email"
                                     placeholder="Enter Email Address"
+                                    value={contactDetail.email}
+                                    onChange={(e) => setContactDetail({ ...contactDetail, email: e.target.value })}
                                 />
                             </CRow>
                             <CRow className='mb-4'>
                                 <CFormInput
                                     type="text"
                                     placeholder="Enter Your Contact Number"
+                                    value={contactDetail.phone}
+                                    onChange={(e) => setContactDetail({ ...contactDetail, phone: e.target.value })}
                                 />
                             </CRow>
                             <CRow className='mb-4'>
                                 <CFormInput
                                     type="text"
                                     placeholder="Message"
+                                    value={contactDetail.message}
+                                    onChange={(e) => setContactDetail({ ...contactDetail, message: e.target.value })}
                                 />
                             </CRow>
                             <CRow>
