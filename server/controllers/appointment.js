@@ -132,14 +132,14 @@ const deleteAppointment = asyncHandler(async (req, res) => {
 const getAllAppointment = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const sortOrder = parseInt(req.query.sortOrder) || -1;
     const sortField = req.query.sortField || "createdAt";
-    const sortOrder = req.query.sortOrder || -1;
 
     try {
         const skip = (page - 1) * limit;
 
         const totalAppointments = await Appointment.countDocuments();
-        const appointments = await Appointment.find().sort({ [sortField]: sortOrder }).skip(skip).limit(limit).populate("department").lean();
+        const appointments = await Appointment.find().sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
         return res.status(200).json({
             error: false,
@@ -158,14 +158,14 @@ const getAllAppointment = asyncHandler(async (req, res) => {
 const getPendingAppointment = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const sortOrder = parseInt(req.query.sortOrder) || -1;
     const sortField = req.query.sortField || "createdAt";
-    const sortOrder = req.query.sortOrder || -1;
 
     try {
         const skip = (page - 1) * limit;
 
         const totalAppointments = await Appointment.countDocuments({ status: 'pending' });
-        const appointments = await Appointment.find({ status: 'pending' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).populate("department").lean();
+        const appointments = await Appointment.find({ status: 'pending' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
         return res.status(200).json({
             error: false,
@@ -184,14 +184,14 @@ const getPendingAppointment = asyncHandler(async (req, res) => {
 const getCompletedAppointment = asyncHandler(async (req, res) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
+    const sortOrder = parseInt(req.query.sortOrder) || -1;
     const sortField = req.query.sortField || "createdAt";
-    const sortOrder = req.query.sortOrder || -1;
 
     try {
         const skip = (page - 1) * limit;
 
         const totalAppointments = await Appointment.countDocuments({ status: 'completed' });
-        const appointments = await Appointment.find({ status: 'completed' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).populate("department").lean();
+        const appointments = await Appointment.find({ status: 'completed' }).sort({ [sortField]: sortOrder }).skip(skip).limit(limit).lean();
 
         return res.status(200).json({
             error: false,

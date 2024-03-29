@@ -137,7 +137,7 @@ function MainPage() {
                         </ul>
                     </div>
                     <div>
-                        <button className='appointment_button'>Book Appointment</button>
+                        <button className='appointment_button' onClick={() => navigate('/book-appointment')}>Book Appointment</button>
                     </div>
                 </div>
                 <div className='right_container'>
