@@ -10,7 +10,7 @@ const createUser = asyncHandler(async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   try {
-    const { fullName, email, password, phone } = req.body;
+    const { fullName, email, password, confirmPassword, phone } = req.body;
 
     const existingUser = await Users.findOne({ email });
     if (existingUser) {
@@ -25,6 +25,13 @@ const createUser = asyncHandler(async (req, res) => {
       return res.status(200).json({
         error: true,
         message: "User already register with this phone number.Please enter another phone number.",
+      });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(200).json({
+        error: true,
+        message: "Password and Confirm Password must be same.",
       });
     }
 
@@ -61,7 +68,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const user = await Users.findOne({ email });
     if (!user) {
-      return res.status(401).json({
+      return res.status(200).json({
         error: true,
         message: "Invalid Email. Please sign up first.",
       });
@@ -69,7 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
     const match = await comparePassword(password, user.password);
     if (!match) {
-      return res.status(401).json({
+      return res.status(200).json({
         error: true,
         message: "Invalid Password.",
       });
@@ -216,7 +223,14 @@ const changePassword = asyncHandler(async (req, res) => {
     return res.status(400).json({ error: true, errors: errors.array() });
   }
   try {
-    const { email, password } = req.body;
+    const { email, password, confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res.status(200).json({
+        error: true,
+        message: "Password and Confirm Password must be same.",
+      });
+    }
 
     const hashedPassword = await hashPassword(password);
     await Users.findAndUpdate(email, { password: hashedPassword });

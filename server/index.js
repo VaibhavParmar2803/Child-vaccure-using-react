@@ -1,6 +1,7 @@
 require('dotenv').config()
 require("./database/db")
 const express = require('express');
+const cors = require('cors')
 const PORT = process.env.PORT
 
 const user = require("./routers/user")
@@ -9,6 +10,7 @@ const appointment = require("./routers/appointment")
 
 const app = express();
 app.use(express.json());
+app.use(cors())
 
 app.use("/user", user)
 app.use("/contact", contact)

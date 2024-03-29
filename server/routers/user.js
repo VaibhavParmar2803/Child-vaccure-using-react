@@ -25,6 +25,8 @@ router.post("/register",
     check('email', 'Please include a valid email.').isEmail(),
     check('password', 'Password is required.').notEmpty(),
     check('password', 'Please enter a password with 8 or more characters.').isLength({ min: 8 }),
+    check('confirmPassword', 'Confirm password is required.').notEmpty(),
+    check('confirmPassword', 'Please enter a confirm password with 8 or more characters.').isLength({ min: 8 }),
     check('phone', 'Phone number is required.').notEmpty(),
     check('phone', 'Please enter a valid phone number').isLength({ min: 10, max: 13 }),
     createUser
@@ -59,6 +61,8 @@ router.put("/resetPassword",
     check('email', 'Please include a valid email.').isEmail(),
     check('password', 'Password is required.').notEmpty(),
     check('password', 'Please enter a password with 8 or more characters.').isLength({ min: 8 }),
+    check('confirmPassword', 'Confirm password is required.').notEmpty(),
+    check('confirmPassword', 'Please enter a confirm password with 8 or more characters.').isLength({ min: 8 }),
     changePassword
 )
 
