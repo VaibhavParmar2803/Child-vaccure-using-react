@@ -107,7 +107,22 @@ form .submit-button {
   font-weight: 600;
 }
 
-.complate_vaccination_button{
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  position: absolute;
+  right: 3px;
+  left: auto;
+}
+
+.nav-item .user-button {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  background-color: blueviolet;
+  color: white !important;
+}
+
+.complate_vaccination_button {
   background-color: rgb(20, 116, 0);
   width: 100%;
   padding: 10px;
@@ -569,7 +584,7 @@ a {
   margin-left: 50px;
 }
 
-.profile .profile-header-img{
+.profile .profile-header-img {
   height: 600px;
 }
 

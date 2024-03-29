@@ -5,8 +5,13 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../contaxt/AuthContext';
 
 function Navbar() {
-    const { auth } = useAuth();
+    const { auth, logout } = useAuth();
     const navigate = useNavigate()
+
+    const handleLogout = async () => {
+        await logout()
+        navigate("/")
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-white border-bottom">
@@ -36,16 +41,23 @@ function Navbar() {
                         <li className="nav-item">
                             <HashLink className="nav-link" smooth to="/#contact">Contact Us</HashLink>
                         </li>
-                    </ul>
-                    <div className='home-page'>
                         {
                             !auth.user ? (
-                                <button className="submit-button w-100" type="submit" onClick={() => navigate('/login')}>Register/Sign in</button>
+                                <li className="nav-item">
+                                    <button className="user-button w-100" type="submit" onClick={() => navigate('/login')}>Register/Sign in</button>
+                                </li>
                             ) : (
-                                <button className="submit-button w-100" type="submit" onClick={() => navigate('/profile')}>{auth.user.fullName}</button>
+                                <li className="nav-item">
+                                    <div className="nav-link dropdown-toggle user-button" role="button" data-bs-toggle="dropdown">{auth.user.fullName}</div>
+                                    <ul className="dropdown-menu">
+                                        <li className="ps-2" onClick={() => navigate('/profile')}>Profile</li>
+                                        <li><hr className="dropdown-divider" /></li>
+                                        <li className="ps-2" onClick={() => handleLogout()}>Logout</li>
+                                    </ul>
+                                </li>
                             )
                         }
-                    </div>
+                    </ul>
                 </div>
             </div>
         </nav>
