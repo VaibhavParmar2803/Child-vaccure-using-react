@@ -2,10 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { CRow, CCol, CWidgetStatsF } from '@coreui/react';
 import { Chart } from 'primereact/chart';
 import { Icon } from '@iconify/react';
-import Layout from '../components/Layout';
 import { Link } from 'react-router-dom';
+import { useAppointment } from '../contaxt/AppointmentContaxt';
+import { useContact } from '../contaxt/ContactContaxt';
+import Layout from '../components/Layout';
 
 function AdminDashboard() {
+    const { bookAppointments, pendingAppointments, completedAppointments } = useAppointment()
+    const { totalContacts } = useContact()
+
     const [chartData, setChartData] = useState({});
     const [chartOptions, setChartOptions] = useState({});
 
@@ -68,16 +73,16 @@ function AdminDashboard() {
                             className="mb-3"
                             icon={<Icon icon="mdi:account-student" style={{ color: 'blueviolet' }} width={50} height={50} />}
                             title="Book Appointment"
-                            value="1217" />
+                            value={bookAppointments} />
                     </Link>
                 </CCol>
                 <CCol xs={3}>
-                    <Link to='/admin/vaccination'>
+                    <Link to='/admin/contact-us'>
                         <CWidgetStatsF
                             className="mb-3"
                             icon={<Icon icon="fa-solid:chalkboard-teacher" style={{ color: 'blueviolet' }} width={50} height={50} />}
-                            title="Vaccinations"
-                            value="42" />
+                            title="Contacts"
+                            value={totalContacts} />
                     </Link>
                 </CCol>
                 <CCol xs={3}>
@@ -86,7 +91,7 @@ function AdminDashboard() {
                             className="mb-3"
                             icon={<Icon icon="fa6-solid:users" style={{ color: 'blueviolet' }} width={50} height={50} />}
                             title="Pending Vaccinations"
-                            value="68" />
+                            value={pendingAppointments} />
                     </Link>
                 </CCol>
                 <CCol xs={3}>
@@ -95,7 +100,7 @@ function AdminDashboard() {
                             className="mb-3"
                             icon={<Icon icon="fluent-mdl2:vaccination" style={{ color: 'blueviolet' }} width={50} height={50} />}
                             title="Full Vaccinations"
-                            value="45" />
+                            value={completedAppointments} />
                     </Link>
                 </CCol>
             </CRow>

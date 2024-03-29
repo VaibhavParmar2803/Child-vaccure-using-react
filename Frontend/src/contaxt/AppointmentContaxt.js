@@ -1,4 +1,4 @@
-import React, { useContext, createContext } from "react";
+import React, { useContext, createContext, useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import { baseURL } from "../lib";
 import axios from 'axios';
@@ -8,14 +8,28 @@ const AppointmentContext = createContext();
 const AppointmentProvider = ({ children }) => {
     const { auth, toast } = useAuth();
 
+    const [bookAppointments, setBookAppointments] = useState(0)
+    const [pendingAppointments, setPendingAppointments] = useState(0)
+    const [completedAppointments, setComplatedAppointments] = useState(0)
+
     const headers = {
         Authorization: auth.token
     };
+
+    useEffect(() => {
+        if (headers.Authorization !== '') {
+            fetchAllAppointment();
+            fetchPendingAppointment();
+            fetchCompletedAppointment();
+        }
+    }, [auth.token])
+
 
     const fetchAllAppointment = async (page, limit, sortField, sortOrder) => {
         try {
             const { data } = await axios.get(`${baseURL}/appointment`, { params: { page, limit, sortField, sortOrder }, headers: headers });
             if (data.error === false) {
+                setBookAppointments(data.totalAppointments)
                 return data
             }
         } catch (error) {
@@ -27,6 +41,7 @@ const AppointmentProvider = ({ children }) => {
         try {
             const { data } = await axios.get(`${baseURL}/appointment/pending`, { params: { page, limit, sortField, sortOrder }, headers: headers });
             if (data.error === false) {
+                setPendingAppointments(data.totalAppointments)
                 return data
             }
         } catch (error) {
@@ -38,6 +53,7 @@ const AppointmentProvider = ({ children }) => {
         try {
             const { data } = await axios.get(`${baseURL}/appointment/completed`, { params: { page, limit, sortField, sortOrder }, headers: headers });
             if (data.error === false) {
+                setComplatedAppointments(data.totalAppointments)
                 return data
             }
         } catch (error) {
@@ -107,6 +123,8 @@ const AppointmentProvider = ({ children }) => {
                 setTimeout(function () {
                     toast.current?.show({ severity: 'success', summary: 'Appointment', detail: data.message, life: 3000 })
                 }, 1000);
+                fetchPendingAppointment()
+                fetchCompletedAppointment()
                 return data
             } else {
                 toast.current?.show({ severity: 'error', summary: 'Appointment', detail: data.message, life: 3000 })
@@ -138,7 +156,7 @@ const AppointmentProvider = ({ children }) => {
     }
 
     return (
-        <AppointmentContext.Provider value={{ fetchAllAppointment, fetchPendingAppointment, fetchCompletedAppointment, getSingleAppointment, bookAppointment, updateAppointment, updateAppointmentStatuts, deleteAppointment }}>
+        <AppointmentContext.Provider value={{ fetchAllAppointment, fetchPendingAppointment, fetchCompletedAppointment, getSingleAppointment, bookAppointment, updateAppointment, updateAppointmentStatuts, deleteAppointment, bookAppointments, pendingAppointments, completedAppointments }}>
             {children}
         </AppointmentContext.Provider>
     );
