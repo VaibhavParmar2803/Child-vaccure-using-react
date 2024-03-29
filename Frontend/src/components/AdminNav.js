@@ -15,12 +15,12 @@ const _nav = [
     to: '/admin/bookings',
     icon: <Icon icon="mdi:account-student" style={{ color: 'white' }} className='me-2' />
   },
-  {
-    component: CNavItem,
-    name: 'Vaccination',
-    to: '/admin/vaccination',
-    icon: <Icon icon="ph:chalkboard-teacher-fill" style={{ color: 'white' }} className='me-2' />,
-  },
+  // {
+  //   component: CNavItem,
+  //   name: 'Vaccination',
+  //   to: '/admin/vaccination',
+  //   icon: <Icon icon="ph:chalkboard-teacher-fill" style={{ color: 'white' }} className='me-2' />,
+  // },
   {
     component: CNavItem,
     name: 'Pending Vaccination',
