@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { HashLink } from 'react-router-hash-link';
 import { useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contaxt/AuthContext';
 
 function Navbar() {
+    const { auth } = useAuth();
     const navigate = useNavigate()
     const [isLogin, setIsLogin] = useState(true)
 
@@ -38,10 +40,10 @@ function Navbar() {
                     </ul>
                     <div className='home-page'>
                         {
-                            isLogin ? (
-                                <button className="submit-button w-100" type="submit" onClick={() => navigate('/profile')}>John Doe</button>
-                            ) : (
+                            !auth.user ? (
                                 <button className="submit-button w-100" type="submit" onClick={() => navigate('/login')}>Register/Sign in</button>
+                            ) : (
+                                <button className="submit-button w-100" type="submit" onClick={() => navigate('/profile')}>{auth.user.fullName}</button>
                             )
                         }
                     </div>
